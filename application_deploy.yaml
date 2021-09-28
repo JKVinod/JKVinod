@@ -1,0 +1,66 @@
+---
+- hosts: localhost
+  gather_facts: False
+
+  vars:
+    image_name: vad1mo/hello-world-rest 
+    replicas: 3
+
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: "{{ image_name }}"
+        source: pull
+      
+    - name: create a deployment for hello-world-rest service
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: hello-world-rest
+            namespace: default
+          spec:
+            replicas: "{{ replicas }}"
+            selector:
+              matchLabels:
+                app: hello-world-rest
+            template:
+              metadata:
+                labels:
+                  app: hello-world-rest
+              spec:
+                containers:
+                - name: hello-world-rest 
+                  image: "{{ image_name }}"
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                  - containerPort: 5050
+                    volumeMounts:
+                     - name: my-test-pvc
+                       mountPath: /data/kubernetes/persistent-volume/my-pv
+                    volumes:               
+                     - name: my-test-pvc
+                    persistentVolumeClaim:
+                     claimName: my-pv
+                    requests:
+                     storage: 5Gi
+      
+    - name: create a Service for hello-world-rest 
+      k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: hello-world-rest
+            namespace: default
+          spec:
+            type: NodePort
+            ports: 
+             - targetPort: 5050
+               port: 5050
+               nodePort: 31000
+            selector:
+              app: hello-world-rest

@@ -15,6 +15,3 @@ KUBERNETES INSTALLATION AND APPLICATION DEPLOYMENT
                         Command:
                                       kubectl apply -f application_deploy.yaml
 
-
-
-                                      

@@ -1,0 +1,26 @@
+validate-argocd:
+  tags:
+    - group-runner
+  stage: test
+  image:
+    name: registry/containername:latest
+  rules:
+    - when: always
+  script:
+    # Dry Run the application
+    - git fetch origin main
+    - git diff-tree --name-only -r origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME -r $CI_COMMIT_SHA > files.txt
+    - echo "ARGOCD DRY RUN"
+    - cat files.txt
+    - chmod -R 775 .
+    - |
+      cat files.txt | while read -r line; do
+       if [[ "$line" == *apps-manifests* ]]; then
+         app_name=$(basename "$line".yaml)
+         echo $app_name
+         argocd app sync $app_name --server "argocd.host.com" --insecure --auth-token "$ARGOCD_TOKEN" --dry-run
+       fi
+      done
+
+       # Disabling the ArgoCD Dry run using values.override.yaml file since its currently not supported
+ 

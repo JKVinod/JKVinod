@@ -1,0 +1,11 @@
+stages:
+  - verify
+
+verify_all:
+  stage: verify
+  tags:
+    - group-runner
+  script:
+    - ./validate-argocd.yaml
+    - ./verify-kustomization.yaml
+    - ./verify-helm-charts.yaml

@@ -1,0 +1,24 @@
+verify-kustomization:
+  tags:
+    - group-runner
+  stage: test
+  image:
+    name: registry/containername:latest
+  rules:
+    - when: always
+  script:
+    - git fetch origin main
+    - git diff-tree --name-only -r origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME -r $CI_COMMIT_SHA > files.txt
+    - echo "KUSTOMIZE VALIDATION for the newly added files"
+    - cat files.txt
+    - |
+      cat files.txt | while read -r line; do
+      if [[ "$line" == *base* ]] || [[ "$line" == *overlays* ]]; then
+        kustomization_path=$(dirname "$line")
+        kustomization_file=$(find "$kustomization_path" -name "kustomization.yaml" -type f -print -quit)
+        if [[ -f "$kustomization_file" ]]; then
+          kubectl kustomize "$kustomization_path"
+        fi
+      fi
+      done
+

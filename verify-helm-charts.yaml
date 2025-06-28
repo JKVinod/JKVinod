@@ -1,0 +1,46 @@
+validate-helm-charts:
+  tags:
+    - group-runner
+  stage: test
+  image:
+    name: registry/containername:latest
+  rules:
+    - when: always
+  script:
+    - git fetch origin main
+    - git diff-tree --name-only -r origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME -r $CI_COMMIT_SHA > files.txt
+    - cat files.txt
+    - echo "HELM TEMPLATE for new files"
+    - |
+      cat files.txt | while read -r line; do
+       # Check if overlays or base directory is present 
+         if [[ ( "$line" == *base* || "$line" == *overlays* ) ]]; then
+       # Run kube-linter for the directory containing the identified file
+            directory=$(dirname "$line")
+            kube-linter lint "$directory"
+      
+       # Extract file name from the line
+         filename=$(basename "$line")
+         echo "$directory"
+         echo "$filename"
+
+       # Check if either Chart.yaml or values.override.yaml file exists
+         if [[ "$filename" == *Chart.yaml* ]]; then
+            helm template "$directory"
+         elif [[ "$filename" == *values.override.yaml* ]]; then
+            # Get the name of the applications from the input by assuming the app_name is the second segment in the directory path
+            app_name=$(echo "$directory" | awk -F '/' '{print $2}')
+            # Find the path of Chart.yaml
+            chart_search_path="$directory"
+            chart_path=$(find "$chart_search_path" -name "Chart.yaml" -type f -print -quit)
+            # Perform helm template using Chart.yaml
+            if [[ -n "$chart_path" ]]; then
+                helm template "$chart_path" -f "$line"
+            else
+                echo "Chart.yaml file not found for values.override.yaml"
+            fi
+         else
+            echo "Neither Chart.yaml nor values.override.yaml file found"
+         fi
+        fi
+      done

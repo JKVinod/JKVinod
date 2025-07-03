@@ -109,6 +109,8 @@ kubectl kustomize <directory>
 
 
 📌 Summary
+
+
 This pipeline enforces configuration validation by catching rendering, linting, and logical errors before merge, it helps teams:
 
 Prevent production misconfigurations

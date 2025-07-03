@@ -1,4 +1,4 @@
-# 👋 Hi, I'm Vinod J K — DevOps Consulatant | Platform Engineer | Cloud-Native Expert
+# 👋 Hi, I'm Vinod J K — DevOps Consultant | Platform Engineer | Cloud-Native Expert
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/vinod-j-k-09129b8a/)
 [![GitHub](https://img.shields.io/github/followers/yourusername?style=social)] (https://github.com/JKVinod)

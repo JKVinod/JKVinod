@@ -6,6 +6,6 @@ verify_all:
   tags:
     - group-runner
   script:
-    - ./validate-argocd.yaml
-    - ./verify-kustomization.yaml
-    - ./verify-helm-charts.yaml
+    - scripts/validate-argocd.yaml
+    - scripts/verify-kustomization.yaml
+    - scripts/verify-helm-charts.yaml

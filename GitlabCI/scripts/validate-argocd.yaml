@@ -1,6 +1,6 @@
 validate-argocd:
   tags:
-    - group-runner
+    - test-runner
   stage: test
   image:
     name: registry/containername:latest

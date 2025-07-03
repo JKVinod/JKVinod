@@ -4,7 +4,7 @@ stages:
 verify_all:
   stage: verify
   tags:
-    - group-runner
+    - test-runner
   script:
     - scripts/validate-argocd.yaml
     - scripts/verify-kustomization.yaml

@@ -1,0 +1,9 @@
+variable "project_id"    { type = string }
+variable "region"        { type = string }
+variable "cluster_name"  { type = string }
+variable "vpc_id"        { type = string }
+variable "private_subnet" { type = string }
+variable "node_count"    { type = number }
+variable "machine_type"  { type = string }
+variable "admin_cidr"    { type = string }
+variable "admins"        { type = list(string) }

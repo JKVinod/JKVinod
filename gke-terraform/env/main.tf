@@ -1,5 +1,5 @@
 module "vpc" {
-  source              = "./modules/vpc"
+  source              = "../terraform-modules/vpc"
   network_name        = "infra-vpc"
   region              = var.region
   public_subnet_cidr  = var.public_subnet_cidr
@@ -7,7 +7,7 @@ module "vpc" {
 }
 
 module "gke" {
-  source          = "./modules/gke-cluster"
+  source          = "../terraform-modules/gke-cluster"
   project_id      = var.project_id
   region          = var.region
   cluster_name    = var.cluster_name

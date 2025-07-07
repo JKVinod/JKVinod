@@ -35,4 +35,29 @@ def handle_pubsub():
                     "templates": [{
                         "name": "onboard-user",
                         "container": {
-                            "image"
+                            "image": "alpine",
+                            "command": ["sh", "-c"],
+                            "args": [f"echo 'Onboarding user {user_email}'"]
+                        }
+                    }]
+                }
+            }
+        }
+
+        response = requests.post(ARGO_WORKFLOW_URL, headers=HEADERS, json=workflow)
+        response.raise_for_status()
+
+        return jsonify({"status": "Workflow triggered"}), 200
+
+    except Exception as e:
+        print(f"Error processing message: {str(e)}")
+        return "Internal Server Error", 500
+
+
+def base64_decode(data):
+    import base64
+    return base64.b64decode(data).decode("utf-8")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -7,7 +7,7 @@
 
 ---
 
-🎯 **DevOps Consultant** with **14+ years** of experience designing, scaling, and automating cloud-native platforms across AWS, GCP, and hybrid infrastructures. I specialize in building Kubernetes-centric, GitOps-driven systems using tools like ArgoCD to enforce declarative, version-controlled deployments. My focus is on delivering secure, observable, and self-healing platforms that empower teams to ship software with speed, reliability, and confidence.
+🎯 **DevOps Consultant** with **12+ years** of experience designing, scaling, and automating cloud-native platforms across AWS, GCP, and hybrid infrastructures. I specialize in building Kubernetes-centric, GitOps-driven systems using tools like ArgoCD to enforce declarative, version-controlled deployments. My focus is on delivering secure, observable, and self-healing platforms that empower teams to ship software with speed, reliability, and confidence.
 
 ---
 
